@@ -1,9 +1,9 @@
 {
 	"id": "ticked-off",
 	"name": "Ticked Off",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Simple text only commands for managing tasks.",
+	"description": "Simple commands for managing tasks.",
 	"author": "Adam Hennessy",
 	"authorUrl": "https://github.com/ajhenne/",
 	"isDesktopOnly": false
