@@ -63,7 +63,7 @@ export default class MyPlugin extends Plugin {
 			editorCallback: (editor: Editor, view: MarkdownView) => {
 
 				const cursor = editor.getCursor();
-				const prefillText = editor.getLine(cursor.line).trim();
+				const prefillText = editor.getLine(cursor.line).trim()
 
 				new CreateTaskModal(this.app, prefillText).open();
 
@@ -96,6 +96,7 @@ class CreateTaskModal extends Modal {
 	tagsInput: HTMLInputElement;
 	scheduledInput: HTMLInputElement;
 	private prefillText: string;
+	private hadCheckbox: boolean = false;
 
 	constructor(app: App, prefillText: string = "") {
 		super(app);
@@ -115,7 +116,14 @@ class CreateTaskModal extends Modal {
 		
 		this.descriptionInput = taskRow.createEl('input', { type: 'text', placeholder: 'Enter task name' });
 		this.descriptionInput.addClass('ticked-off-text');
-		this.descriptionInput.value = this.prefillText;
+
+		let filteredPrefillText = this.prefillText;
+
+		if (filteredPrefillText.includes("- [ ]")) {
+			this.hadCheckbox = true;
+			filteredPrefillText = filteredPrefillText.replace("- [ ]", "").trim();
+		}
+		this.descriptionInput.value = filteredPrefillText
 
 
 		// Priority buttons row.
@@ -214,19 +222,21 @@ class CreateTaskModal extends Modal {
 			const editor = this.app.workspace.activeEditor?.editor;
 
 			if (editor) {
+
 				let taskLine = `- [ ] ${desc}`;
 				
-				if (priority) {taskLine += ` [priority:: ${priority}]`;
+				if (priority) taskLine += ` [priority:: ${priority}]`;
 				if (due) taskLine += ` [due:: [[${due}]]]`;
 				if (schedule) taskLine += ` [schedule:: [[${schedule}]]]`;
 				if (tags) taskLine += ` [tags::#${tags}]`
 
-				editor.replaceRange(taskLine, editor.getCursor());
+				const cursor = editor.getCursor();
+				editor.setLine(cursor.line, taskLine);
 
+				editor.setCursor({ line: cursor.line, ch: taskLine.length });
 			}
-			// console.log('CreateTaskModal submit:', { description: desc, priority, due, schedule });
 			this.close();
-		}});
+		});
 
 
 
