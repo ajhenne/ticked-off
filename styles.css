@@ -1,8 +1,39 @@
-/*
+.ticked-off-row {
+    display: grid;
+    grid-template-columns: 100px 2fr;
+    margin-bottom: 10px;
+}
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
+.ticked-off-row:first-child {
+    margin-top: 10px;
+}
 
-If your plugin does not need CSS, delete this file.
+.ticked-off-label {
+    margin: auto 0;
+}
 
-*/
+input.ticked-off-invalid-date {
+    border: 1px solid rgba(249, 7, 7, 0.7) !important;
+}
+
+input.ticked-off-invalid-date:focus {
+    box-shadow:rgba(249, 7, 7, 0.3) 0px 0px 0px 2px;
+}
+
+.ticked-off-button {
+    width: 25%;
+}
+
+.ticked-off-button.selected {
+    background-color: var(--interactive-accent);
+}
+
+.ticked-off-row:last-child {
+    display: flex;
+}
+
+.ticked-off-row > .ticked-off-submit {
+    margin-left: auto;
+    width: 200px;
+}
+
